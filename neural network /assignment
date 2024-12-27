@@ -1,0 +1,22 @@
+for epoch in range(10000):  # Number of iterations
+    # Forward pass
+    linear_output = np.dot(inputs, weights) + bias
+    predictions = sigmoid(linear_output)
+    
+    # Compute error
+    error = outputs - predictions
+    
+    # Backpropagation
+    d_error = error * sigmoid_derivative(predictions)
+    weights += learning_rate * np.dot(inputs.T, d_error)
+    bias += learning_rate * np.sum(d_error)
+    
+    # Optional: Print the error every 1000 epochs
+    if epoch % 1000 == 0:
+        print(f"Epoch {epoch}, Error: {np.mean(np.abs(error))}")
+
+# Test the neural network
+print("\nTrained OR Gate Neural Network Results:")
+for i in range(len(inputs)):
+    result = sigmoid(np.dot(inputs[i], weights) + bias)
+    print(f"Input: {inputs[i]}, Predicted Output: {result.round()}, Actual Output: {outputs[i]}")
